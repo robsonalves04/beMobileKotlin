@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.example.bemobilekotlin"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.bemobilekotlin"
@@ -56,4 +56,19 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation ("androidx.compose.material:material:1.6.8")
+    implementation ("com.google.android.material:material:1.12.0")
+    implementation ("androidx.activity:activity-compose:1.8.2")
+    implementation ("androidx.compose.material:material-icons-extended:1.6.4")
+    implementation ("androidx.compose.runtime:runtime-livedata:1.6.4")
+    implementation ("io.insert-koin:koin-android:3.5.0")
+    implementation ("io.insert-koin:koin-androidx-compose:3.5.0")
+    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11")
+    implementation ("com.squareup.okhttp3:okhttp:5.0.0-alpha.11")
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
 }
