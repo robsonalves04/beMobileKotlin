@@ -35,7 +35,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.bemobilekotlin.viewModels.EmployeeViewModel
@@ -47,6 +49,7 @@ fun FormSearch() {
     val employeeViewModel: EmployeeViewModel = getViewModel()
     val searchQuery = remember { mutableStateOf("") }
     val employees by employeeViewModel._dados.observeAsState(emptyList())
+    val context = LocalContext.current
 
     // Lista de funcionários filtrada ou completa
     val filteredEmployees = if (searchQuery.value.isBlank()) {
@@ -58,10 +61,15 @@ fun FormSearch() {
     }
     // Atualiza a lista com base na pesquisa
     LaunchedEffect(Unit) {
+        //atualizando/obtendo a lista da pasta assets
+        employeeViewModel.fetchEmployeesFromJson(context)
+        //atualizando/obtendo a lista do arquivo clonado
         employeeViewModel.fetchEmployees()
+        //atualizando de acordo com a pesquisa dinamica
         employeeViewModel.searchByName(searchQuery.value)
         employees.forEach { employee ->
-        Log.d("Pesquisa", "Pesquisando: ${employee.id}, ${employee.name}")}
+            Log.d("Pesquisa", "Pesquisando: ${employee.id}, ${employee.name}")
+        }
     }
 
     Column(
@@ -103,7 +111,7 @@ fun FormSearch() {
                 Box(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
-                        .offset(x =(-6).dp, y = (8).dp)
+                        .offset(x = (-6).dp, y = (8).dp)
                         .size(19.dp)
                         .clip(CircleShape)
                         .background(Color.Blue),
@@ -113,12 +121,17 @@ fun FormSearch() {
                         text = "02",
                         color = Color.White,
                         fontSize = 9.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
+
                     )
                 }
             }
         }
-        Column(Modifier.padding(16.dp)) {
+        Column(
+            Modifier
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState())) {
             Text("Funcionários", fontSize = 24.sp, fontWeight = FontWeight.Medium)
             Spacer(Modifier.height(16.dp))
             // Campo de busca
@@ -130,44 +143,60 @@ fun FormSearch() {
                 },
                 onEnterPressed = {
                     employeeViewModel.fetchEmployees()
+                    employeeViewModel.fetchEmployeesFromJson(context)
                     Log.d("Pesquisa", "Pesquisando: ${searchQuery.value}")
-                    Log.d("Pesquisa", "Colaboradores: ${employeeViewModel.fetchEmployees()}")
+                    Log.d(
+                        "Pesquisa json",
+                        "Colaboradores: ${employeeViewModel.fetchEmployeesFromJson(context)}"
+                    )
                 },
             )
             Spacer(Modifier.height(16.dp))
+            //barra de orientação
             Column(
-                Modifier
-                    .padding(8.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFFEDEFFB))
+                    .border(BorderStroke(1.dp, Color(0XFFDFDFDF)))
             ) {
                 Row(
-                    Modifier
+                    modifier = Modifier
                         .height(60.dp)
                         .fillMaxWidth()
-                        .background(color = Color(0xFFEDEFFB))
-                        .border(BorderStroke(1.dp, color = Color(0XFFDFDFDF))),
+                        .padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Spacer(Modifier.width(16.dp))
-                    Text("Foto", Modifier.align(Alignment.CenterVertically))
-                    Spacer(Modifier.width(40.dp))
-                    Text("Nome", Modifier.align(Alignment.CenterVertically))
                     Text(
-                        "\u25CF",
-                        modifier = Modifier
-                            .align(Alignment.CenterVertically)
-                            .padding(start = 190.dp),
+                        text = "Foto",
+                        fontSize = 16.sp,
+                        color = Color.Black,
+                        fontWeight = FontWeight.Medium
+                    )
+                    Spacer(Modifier.width(16.dp))
+                    Text(
+                        text = "Nome",
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 16.sp,
+                        color = Color.Black,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Text(
+                        text = "\u25CF",
                         fontSize = 22.sp,
                         fontWeight = FontWeight.Bold,
+                        color = Color.Black
                     )
+                    Spacer(Modifier.padding(end = 16.dp))
                 }
             }
             Column(
                 modifier = Modifier
                     .padding(bottom = 32.dp)
                     .fillMaxSize()
-                    .padding(8.dp)
+
             ) {
                 // Lista de funcionários (filtrada ou completa)
-                Column(Modifier.verticalScroll(rememberScrollState())) {
+                Column(Modifier) {
                     if (filteredEmployees.isEmpty()) {
                         Text("Nenhum colaborador encontrado", Modifier.padding(8.dp))
                     } else {

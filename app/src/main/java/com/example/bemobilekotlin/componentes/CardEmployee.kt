@@ -68,16 +68,14 @@ fun EmployeeCard(
                     .clip(CircleShape),
             )
             Spacer(Modifier.width(16.dp))
-
             // Nome do usuário
             Text(
                 text = nome,
                 fontWeight = FontWeight.Medium,
                 fontSize = 16.sp,
                 color = Color.Black,
-                modifier = Modifier.weight(1f) // Expande para ocupar o espaço disponível
+                modifier = Modifier.weight(1f)
             )
-
             // Ícone de expandir/recolher
             IconButton(
                 onClick = { expanded = !expanded },
@@ -91,7 +89,6 @@ fun EmployeeCard(
                 )
             }
         }
-
         // Se expandido, mostra os detalhes
         if (expanded) {
             Column(
@@ -106,8 +103,7 @@ fun EmployeeCard(
         }
     }
 }
-
-// informações detalhadas com formatação
+// Informações detalhadas com formatação
 @Composable
 fun DetailRow(label: String, value: String) {
     Row(
@@ -126,7 +122,7 @@ fun formatDate(isoDate: String): String {
     val parsedDate = LocalDate.parse(isoDate.substring(0, 10))
     return parsedDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
 }
-
+// Formata para "+55 (11) 91235-0000"
 fun formatPhoneNumber(phone: String): String {
     if (phone.length == 13) {
         val countryCode = phone.substring(0, 2)

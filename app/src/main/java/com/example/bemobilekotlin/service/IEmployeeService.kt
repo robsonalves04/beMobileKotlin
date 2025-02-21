@@ -7,6 +7,7 @@ import retrofit2.Call
 import retrofit2.Response
 
 interface IEmployeeService {
+    //Implementação do GET
     @GET("employees")
     suspend fun getEmployees(): List<EmployeeModel>
 }

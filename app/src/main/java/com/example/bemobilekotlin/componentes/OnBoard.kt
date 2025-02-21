@@ -34,6 +34,5 @@ fun OnBoard() {
                         context.startActivity(intent)},
             )
         }
-
     }
 }

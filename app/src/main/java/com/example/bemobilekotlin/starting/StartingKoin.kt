@@ -24,7 +24,7 @@ class Starting : Application() {
                 single <IEmployeeService> { EmployeeService() }
 
                 //==Injeção do ViewModel
-                viewModel { EmployeeViewModel(get()) }
+                viewModel { EmployeeViewModel(get(), get()) }
             })
         }
         //== Rodapé padrão do celular

@@ -12,6 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 
 class EmployeeService : IEmployeeService {
+    //Servico que faz a requisição na API
     object RetrofitClient {
         private val retrofit by lazy {
             Retrofit.Builder()
